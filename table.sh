@@ -395,4 +395,13 @@ do
             echo "4) Insert row         8) Exit"
             ;;
 
-            
+          
+        "Exit")
+            echo "1-Create DB" 
+            echo "2-List DB"
+            echo "3-Connect DB"
+            echo "4-Remove DB"
+            echo "5-Exit"
+            break
+        ;;
+  
