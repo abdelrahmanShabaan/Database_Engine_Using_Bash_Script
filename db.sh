@@ -105,4 +105,34 @@ do
                 echo "1) Create DB   3) Connect DB  5) Exit"
                 echo "2) List DB     4) Remove DB"
         ;;
+        
+        "Remove DB")
+            echo "--------------------------------------------------------"
+            #Before we start Delete we Display all database we have
+            ls -F ./.db | grep / | tr '/' ' '
+            echo "--------------------------------------------------------"
+            
+            #start read prompt from user about database he want to delete
+            read -p "Which Database Do you want to delete, Dr.Mina <3 : " dbDelete
+            #Ask before delete if he sure or not with message
+            read -p "Are you Sure Dr.Mina <3? for Yes Press Y and No press N : " answer
+            if [[ -e ./.db/$dbDelete ]];then
+                if [[ "$answer" == [yY] ]];then
+                  #we use rm with (-r option) to delete database if it's not empty
+                    rm -r ./.db/$dbDelete
+                    echo "Database Succesfully Deleted, Dr.Mina <3"
+                    echo "--------------------------------------------------------"
+                else 
+                    echo "Back to main menu, Dr.Mina <3"
+                    echo "--------------------------------------------------------"
+                fi
+            else 
+                echo "Database Doesn't exist, Dr.Mina <3"
+                echo "--------------------------------------------------------"
+            fi
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create DB   3) Connect DB  5) Exit"
+            echo "2) List DB     4) Remove DB"
 
+        ;;
