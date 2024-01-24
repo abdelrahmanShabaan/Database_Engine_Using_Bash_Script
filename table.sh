@@ -87,3 +87,36 @@ do
             echo "4) Insert row         8) Exit"
         ;;
 
+        "Drop table")
+            echo "--------------------------------------------------------"
+            #Before make Drop we will show all tables in our Database directory
+            #using grep (-v option to invert the match , non matching lines) 
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo "--------------------------------------------------------"
+
+            #Make prompt to take name of table we want to delete
+            read -p "Please, Enter table Name, Dr.Mina <3 : " name
+            
+            #make vaildations (if equal non-vaild name , we will display not allow)
+            if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                    echo 
+                    echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                    continue
+                fi
+            #If name of table is true make rm with (-r option) to remove table if not empty
+            if [[ -f $name ]]; then
+                rm -r "$name"
+                rm -r "$name.meta"
+                #After deleted we will display message this table is delete 
+                echo "Table [$name] deleted successfully, Dr.Mina <3"
+            else 
+                echo "Sorry , Dr.Mina <3 ; There is an error, Can't find Table."
+            fi
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
+
