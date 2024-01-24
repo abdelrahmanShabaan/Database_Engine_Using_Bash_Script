@@ -214,3 +214,78 @@ do
             echo "3) Drop table         7) Update cell"
             echo "4) Insert row         8) Exit"
         ;;
+
+        "Show data")
+            echo "--------------------------------------------------------"
+            #Before we select from table we will display all table to select from
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo "--------------------------------------------------------"
+
+            while true; do
+            #Then we will read table name as prompot from user
+            read -p "Please, Enter table Name, Dr.Mina <3 : " name
+            if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                        echo 
+                        echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                        continue
+            fi
+            if [[ ! -f $name ]]; then
+            echo "Sorry , Dr.Mina <3 ; There is an error, Not Found."
+                continue
+            fi   
+            break
+            done
+
+                echo
+                echo -e "Dr.Mina <3 ; please choose: "
+                echo    "1) Select all columns"
+                echo    "2) Select Specific column"
+                read choice
+                case $choice in
+                    1)
+                        echo "*********** Table : $name ***********"
+                        echo "----------------------------------"
+                        #Here we will use AWK to display with columns 
+                        #BEGIN block is executed before processing any input lines. 
+                        #It sets the field separator (FS) to colon (:), 
+                        #the output field separator (OFS) to a tab followed by a pipe (\t |), 
+                        #the output record separator (ORS) to a newline.
+                        awk 'BEGIN{FS=":";OFS="\t |";ORS="\n";}{ $1=$1; print substr($0, 1, length($0)-1) }' "./$name"
+                        echo "----------------------------------"
+                        ;;
+                    2)
+                        read -p "Enter the column numbers separated by commas (Example: 1,2,3): " columns
+                        echo "*********** Table : $name ***********"
+                        #Here we will use AWK with (-v option) to assign values to variables before awk execute
+                        awk -v cols="$columns" 'BEGIN{FS=" : "; OFS="\t|"; ORS="\n";}
+                        {
+                            split(cols, arr, ",");
+                            for(i=1; i<=length(arr); i++) {
+                                printf "+----------------";
+                            }
+                            printf "+";
+                            printf "\n";
+                            for(i=1; i<=length(arr); i++) {
+                                printf "|\t"$arr[i]"\t";
+                            }
+                            printf "|\n";
+                        }' "./$name"
+                        echo -n "+"
+                        for ((i=1; i<=columns; i++)); do
+                            echo -n "----------------+"
+                        done
+                        echo 
+                        
+                        ;;
+                    *)
+                    # (-e option ) allows to include \t and \n when make print 
+                        echo -e "Sorry , Dr.Mina <3 ; Invalid Choice"
+                        ;;
+            esac
+            echo
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
+        
