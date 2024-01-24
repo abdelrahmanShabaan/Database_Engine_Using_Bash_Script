@@ -136,3 +136,81 @@ do
                 continue
             fi
 
+            #Here we make variable save the name of table to use when insert 
+            source_file="${name}"
+
+            #Here we will use AWK with (-v option) to assign values to variables before awk execute
+            #NR -> we will use for number of row we will make split in with argument of it 
+            function getDatatype {
+                awk -v col="$1" 'NR==2 {split($0, types, ":"); print types[col]}' "$name.meta"
+            }
+
+            #If Found file name start while looping of columns sequence
+            if [[ -f $name ]]; then
+                while true; do
+                    #start prompt with (-p option) is handy for same line 
+                    read -p "Please, Enter first columns value As PK, Dr.Mina <3: " id
+
+                    #save is_unique in variable to use next steps 
+                    is_unique=true
+                    
+                    # Check uniqueness of ID
+                    # -we will use cut to extracting sections 
+                    # -f: Selects fields (columns) based on a delimiter.
+                    # -d: Specifies the delimiter used to separate fields.
+                    # -c: Selects characters based on position.
+                    for field in $(cut -f1 -d: "./$dbname/$name"); do
+                        if [[ $field = "$id" ]]; then
+                            echo "Sorry, Dr.Mina <3; ID is not unique. Please enter a unique ID."
+                            is_unique=false
+                            break
+                        else is_unique=true
+                        fi
+                    done
+                    #If the first columns Unique continue while loop
+                    if [[ $is_unique == true ]]; then
+                    #Then append in file with (-n option) to give it number of line
+                        echo -n "$id : " >> "$source_file"
+                        #start for loop to check datatype of column
+                        for ((i=2; i<=$num_columns; i++)); do
+                            read -p "Please, Enter Data for Column $i, Dr.Mina <3: " data
+                            if [[ $data == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                                echo
+                                echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                                continue
+                            fi
+
+                            #Here we will use function that check of datatype we will insert in 
+                            colDatatype=$(getDatatype "$i")
+                            case $colDatatype in
+                                    "<int> ")
+                                        if ! [[ $data =~ ^[0-9]+$ ]]; then
+                                            echo "Invalid Datatype, Dr.Mina <3."
+                                            continue
+                                        fi
+                                        ;;
+                                    "<str> ")
+                                        if [[ $data =~ ^[0-9]+$ ]]; then
+                                            echo "Invalid Datatype, Dr.Mina <3."
+                                            continue
+                                        fi
+                                        ;;
+                                esac
+                            echo -n "$data : " >> "$source_file"
+                        done
+                        echo " " >> "$source_file"
+                        break
+                    fi
+                done
+                echo "Values inserted successfully, Dr.Mina <3."
+                
+            else
+                echo "Sorry , Dr.Mina <3 ; There is an error, Please, Enter the name of an existing table."
+            fi
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
