@@ -120,3 +120,19 @@ do
             echo "4) Insert row         8) Exit"
         ;;
 
+         "Insert row")
+            echo "--------------------------------------------------------"
+            #Before insert table we make sure to display tables all | to select from it
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo "--------------------------------------------------------"
+            
+            #start take name of table from user as prompt
+            read -p "Please, Enter table Name, Dr.Mina <3 : " name
+
+            #make if-condition with Regex to make sure name is vaild 
+            if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                echo 
+                echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                continue
+            fi
+
