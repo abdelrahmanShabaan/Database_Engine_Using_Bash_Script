@@ -34,3 +34,41 @@ do
                     
                     #make chmod to give all access to modify table of database
                     chmod u+rwx ./$dbname/$name
+
+                    #start declearation of array , that will have looping his columns 
+                    arr=()
+
+                    #for looping in num_columns that prompt from user
+                    for ((i=1; i<=$num_columns; i++)); do
+                        #start read number sequence and give name then datatype then save in table
+                        read -p "Please,Enter Column [$i] Name, Dr.Mina <3: " col
+
+                        #select datatype after take name of first column
+                        select data in "Integer" "String"
+                        do
+                            case $data in
+                                "Integer" ) datatype+="<int> :"; break;;
+                                "String" ) datatype+="<str> :"; break;;
+                                * ) 
+                            echo "Sorry , Dr.Mina <3 ; Invalid Choice"
+                            echo "--------------------------------------------------------";;
+                            esac
+                        done
+
+                    #Here i will use (-n option) for line number then append >> save in file with .meta
+                    echo -n " $col : " >> $name.meta
+                    done
+                    echo "" >> $name.meta
+                    echo -n "$datatype" >> $name.meta
+                    echo "Table '$name' created successfully, Dr.Mina <3."
+                fi
+            else
+                echo "Sorry , Dr.Mina <3 ; There is an error, Invalid name."
+            fi
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
