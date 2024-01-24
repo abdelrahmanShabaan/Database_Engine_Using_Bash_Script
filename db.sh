@@ -68,4 +68,41 @@ do
             echo "2) List DB     4) Remove DB"
         ;;
 
+        
+        "Connect DB")
+                echo "************ Existing Databases ************"
+                #check with If condition if (e option) include special characters in output 
+                if [[ -e ./.db ]]; then
+                    ls -F ./.db | grep / | tr '/' ' '
+                    echo "--------------------------------------------------------"
+                    #read prompt from user of name of database we want to connect on
+                    read -p "Please, enter DB name, Dr.Mina <3 : " name
+                    
+                    #After read prompt check regex if name have any non-Vaild symbols
+                    if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                        echo 
+                        echo "! @ # $ % ^ () + . -  are not allowed!"
+                        continue
+                    fi
+                    #IF all things is good connect to database
+                    if [[ -d ./.db/$name ]]; then
+                        
+                        #Display success message we are connecting
+                        echo "Connecting to $name...."
+                        #use chmod to give all access to Modify of database 
+                        chmod u+rwx ./.db/$name
+                        ./table.sh $name
+                        #print at the end (print work directory)
+                        pwd
+                        echo "--------------------------------------------------------"
+                    else
+                        echo "Sorry , Dr.Mina <3 ; Database $name doesn't exist."
+                        echo "--------------------------------------------------------"
+                    fi
+                fi
+                echo
+                echo "--------------------------------------------------------"
+                echo "1) Create DB   3) Connect DB  5) Exit"
+                echo "2) List DB     4) Remove DB"
+        ;;
 
