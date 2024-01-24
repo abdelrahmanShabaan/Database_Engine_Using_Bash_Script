@@ -288,4 +288,40 @@ do
             echo "3) Drop table         7) Update cell"
             echo "4) Insert row         8) Exit"
         ;;
-        
+
+         "Delete row")
+            echo "--------------------------------------------------------"
+            #Before we Delete from table we will display all table to select from
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo "--------------------------------------------------------"
+
+            # read name of table
+            # select item from table 
+            # delete item from table 
+
+            read -p "Please, Enter table Name, Dr.Mina <3 : " name
+            if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                    echo 
+                    echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                    continue
+                fi
+
+            # show with cat table selected with number of items
+            cat -n "$name" 
+            # Extract the line with the specified ID using sed
+            read -p "Please, Enter item number, Dr.Mina <3 : " num
+            # use sed to extract number line (contents)
+            sed -n "${num}p" "$name"
+            # chmod to give access to delete line from file
+            chmod u+rwx "$name" 
+            # use sed to delete row with $id and added d to remove
+            sed -i "${num}d"  "$name"
+            echo "Item number : [ $num ] deleted successfully, Dr.Mina <3."
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
+
