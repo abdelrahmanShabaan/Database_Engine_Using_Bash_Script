@@ -72,3 +72,18 @@ do
             echo "3) Drop table         7) Update cell"
             echo "4) Insert row         8) Exit"
         ;;
+
+
+        "List table")
+            echo "--------------------------------------------------------"
+            #Here we will use ls to list all files
+            #and using grep (-v option to invert the match , non matching lines) | tr to replace / for spaces
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+        ;;
+
