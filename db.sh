@@ -105,7 +105,7 @@ do
                 echo "1) Create DB   3) Connect DB  5) Exit"
                 echo "2) List DB     4) Remove DB"
         ;;
-        
+
         "Remove DB")
             echo "--------------------------------------------------------"
             #Before we start Delete we Display all database we have
@@ -136,3 +136,15 @@ do
             echo "2) List DB     4) Remove DB"
 
         ;;
+
+        "Exit")
+            echo "Thank You, Dr.Mina <3 The best instructor, Engineer and Linux Giant Ever <3"
+            echo "<3 <3 <3"
+            break
+        ;;
+
+        *)
+        echo "Sorry , Dr.Mina <3 ; Invalid Choice"
+        echo "--------------------------------------------------------"
+    esac
+done
