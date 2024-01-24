@@ -325,3 +325,74 @@ do
             echo "4) Insert row         8) Exit"
         ;;
 
+ "Update cell")
+            echo "--------------------------------------------------------"
+            #Before we update from table we will display all table to select from
+            ls | grep -v '\.meta$' | tr '/' ' '
+            echo "--------------------------------------------------------"
+
+            # select table name 
+            # select item want to update with read 
+            # update and after enter make change and save with 
+            # same line that records lastly
+
+            read -p "Please, Enter table Name, Dr.Mina <3 : " name 
+            if [[ $name == *['!'@#\$%^\&*()-+\.\/]* ]]; then
+                echo 
+                echo "! @ # $ % ^ () + . -  are not allowed, Dr.Mina <3 !"
+                continue
+            fi
+            #use cat and (-n option) to show data with line numbers like indexing
+            cat -n "$name"
+            read -p "Please, enter row number, Dr.Mina <3 : " num
+            if ! [[ $num =~ ^[0-9]+$ ]]; then
+                echo "Invalid item number, please enter a valid number, Dr.Mina <3."
+                continue
+            fi
+            #use (wc) count of words (-l option) to determine the number of lines in a file 
+            if (( num < 1 )) || (( num > $(wc -l < "$name") )); then
+                echo "Invalid item number, please enter a valid number, Dr.Mina <3."
+                continue
+            fi
+            read -p "Please, enter column number, Dr.Mina <3: " col
+            if ! [[ $col =~ ^[0-9]+$ ]]; then
+                echo "Invalid column number, please enter a valid number, Dr.Mina <3."
+                continue
+            fi
+            #if AWK with (-F option) that sets the field separator to a colon :
+            #(NF) number of fileds in the first line
+            if (( col < 1 )) || (( col > $(awk -F: '{print NF; exit}' "$name") )); then
+                echo "Invalid column number, please enter a valid number, Dr.Mina <3."
+                continue
+            fi
+            read -p "Please, Enter new data for row $num and column $col, Dr.Mina <3: " new_data
+            awk -v id="$num" -v col="$col" -v new_data="$new_data" '{
+                if (NR == id) {
+                    # Update the specified column
+                    split($0, fields, ":")
+                    for (i = 1; i <= length(fields); i++) {
+                        if (i == col) {
+                            printf "%s", new_data
+                        } else {
+                            printf "%s", fields[i]
+                        }
+                        if (i < length(fields)) {
+                            printf ":"
+                        }
+                    }
+                    printf "\n"
+                } else {
+                    # Print other lines as they are
+                    print $0
+                }
+            }' "$name" > modified_file && mv modified_file "$name"
+            echo "Row $num, Column $col updated successfully, Dr.Mina <3."
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create table       5) Show data"
+            echo "2) List table         6) Delete row"
+            echo "3) Drop table         7) Update cell"
+            echo "4) Insert row         8) Exit"
+            ;;
+
+            
