@@ -58,3 +58,14 @@ do
 
         ;;
 
+        "List DB")
+            echo "--------------------------------------------------------"
+            #Here we will use ls (-F option) to list all directory | grep any slash | replace any / with space 
+            ls -F ./.db | grep / | tr '/' ' '
+            echo
+            echo "--------------------------------------------------------"
+            echo "1) Create DB   3) Connect DB  5) Exit"
+            echo "2) List DB     4) Remove DB"
+        ;;
+
+
