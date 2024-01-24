@@ -20,3 +20,14 @@ PS3=$'---------------------------- \nSelect From Main Menu: '
         echo "DB Initiated successfully, Dr.Mina <3"
         echo "--------------------------------------------------------"
     fi
+#make Select in Main Menu with all options
+select var in "Create DB" "List DB" "Connect DB" "Remove DB" "Exit"
+do 
+    case $var in 
+        "Create DB")
+            echo "--------------------------------------------------------"
+            #We will prompt database name from user
+            read -p "Please, enter DB name, Dr.Mina <3 : " name
+
+        ;;
+
